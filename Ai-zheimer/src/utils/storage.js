@@ -5,7 +5,8 @@ export const storageKeys = {
   NOTES: 'aizheimer_notes',
   USER_PROFILE: 'aizheimer_profile',
   USERS: 'aizheimer_users',
-  CURRENT_USER: 'aizheimer_current_user'
+  CURRENT_USER: 'aizheimer_current_user',
+  USER_TYPE: 'aizheimer_user_type' // 'patient' veya 'caregiver'
 };
 
 // Local Storage helper functions

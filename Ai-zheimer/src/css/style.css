@@ -510,7 +510,7 @@ body {
     overflow-y: auto;
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 1.5rem;
 }
 
 .empty-state {
@@ -553,106 +553,6 @@ body {
     background-color: #165e4e;
 }
 
-/* ============================================
-   QUICK ACTIONS
-   ============================================ */
-
-.quick-actions {
-    margin-top: 2rem;
-    background-color: #ffffff;
-    border-radius: 0.75rem;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    padding: 1.5rem;
-}
-
-.quick-actions-title {
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: #1f2937;
-    margin-bottom: 1rem;
-}
-
-.quick-actions-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
-}
-
-@media (min-width: 768px) {
-    .quick-actions-grid {
-        grid-template-columns: repeat(4, 1fr);
-    }
-}
-
-.quick-action-btn {
-    padding: 1rem;
-    border-radius: 0.5rem;
-    border: none;
-    cursor: pointer;
-    text-align: center;
-    transition: all 0.2s;
-}
-
-.quick-action-blue {
-    background-color: #f0fdf4;
-}
-
-.quick-action-blue:hover {
-    background-color: #dcfce7;
-}
-
-.quick-action-green {
-    background-color: #f0fdf4;
-}
-
-.quick-action-green:hover {
-    background-color: #dcfce7;
-}
-
-.quick-action-purple {
-    background-color: #f0fdf4;
-}
-
-.quick-action-purple:hover {
-    background-color: #dcfce7;
-}
-
-.quick-action-orange {
-    background-color: #f0fdf4;
-}
-
-.quick-action-orange:hover {
-    background-color: #dcfce7;
-}
-
-.quick-action-icon {
-    width: 2rem;
-    height: 2rem;
-    margin: 0 auto 0.5rem;
-    display: block;
-}
-
-.quick-action-blue .quick-action-icon {
-    color: #16a34a;
-}
-
-.quick-action-green .quick-action-icon {
-    color: #16a34a;
-}
-
-.quick-action-purple .quick-action-icon {
-    color: #16a34a;
-}
-
-.quick-action-orange .quick-action-icon {
-    color: #16a34a;
-}
-
-.quick-action-text {
-    font-weight: 600;
-    color: #374151;
-    margin: 0;
-}
 
 /* ============================================
    FOOTER
@@ -717,12 +617,763 @@ body {
 }
 
 .reminder-card {
-    transition: all 0.2s ease;
+    background: #ffffff;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
+    border-left: 5px solid #24a085;
+    border-top: 2px solid #f0fdf4;
+    transition: all 0.3s ease;
+    margin-bottom: 1rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.reminder-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 5px;
+    height: 100%;
+    background: linear-gradient(to bottom, #24a085, #0c8168);
+    z-index: 0;
 }
 
 .reminder-card:hover {
-    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15), 0 4px 8px rgba(0, 0, 0, 0.1);
+    transform: translateY(-4px);
+    border-top-color: #24a085;
+}
+
+.reminder-card.reminder-urgency-red {
+    border-left-color: #ef4444;
+    border-top-color: #fef2f2;
+    background: linear-gradient(to right, #ffffff 0%, #fef2f2 100%);
+}
+
+.reminder-card.reminder-urgency-red::before {
+    background: linear-gradient(to bottom, #ef4444, #dc2626);
+}
+
+.reminder-card.reminder-urgency-red:hover {
+    border-top-color: #ef4444;
+    box-shadow: 0 8px 24px rgba(239, 68, 68, 0.2), 0 4px 8px rgba(239, 68, 68, 0.1);
+}
+
+.reminder-card.reminder-urgency-green {
+    border-left-color: #16a34a;
+    border-top-color: #f0fdf4;
+    background: linear-gradient(to right, #ffffff 0%, #f0fdf4 100%);
+}
+
+.reminder-card.reminder-urgency-green::before {
+    background: linear-gradient(to bottom, #16a34a, #15803d);
+}
+
+.reminder-card.reminder-urgency-green:hover {
+    border-top-color: #16a34a;
+    box-shadow: 0 8px 24px rgba(22, 163, 74, 0.2), 0 4px 8px rgba(22, 163, 74, 0.1);
+}
+
+.reminder-card-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.25rem;
+    margin-bottom: 1.25rem;
+    position: relative;
+    z-index: 1;
+}
+
+.reminder-icon {
+    font-size: 3rem;
+    flex-shrink: 0;
+    width: 4rem;
+    height: 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+    border-radius: 1rem;
+    box-shadow: 0 2px 8px rgba(36, 160, 133, 0.2);
+}
+
+.reminder-card.reminder-urgency-red .reminder-icon {
+    background: linear-gradient(135deg, #fef2f2, #fee2e2);
+    box-shadow: 0 2px 8px rgba(239, 68, 68, 0.2);
+}
+
+.reminder-card.reminder-urgency-green .reminder-icon {
+    background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+    box-shadow: 0 2px 8px rgba(22, 163, 74, 0.2);
+}
+
+.reminder-title-section {
+    flex: 1;
+    min-width: 0;
+}
+
+.reminder-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1f2937;
+    margin: 0 0 0.5rem 0;
+    line-height: 1.3;
+}
+
+.reminder-description {
+    font-size: 1rem;
+    color: #4b5563;
+    margin: 0;
+    font-weight: 500;
+    line-height: 1.5;
+}
+
+.reminder-urgency-badge {
+    font-size: 1.75rem;
+    flex-shrink: 0;
+    width: 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #ffffff;
+    border-radius: 50%;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.reminder-card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    position: relative;
+    z-index: 1;
+    padding-top: 1rem;
+    border-top: 1px solid #e5e7eb;
+}
+
+.reminder-info-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.9375rem;
+    padding: 0.5rem 0;
+}
+
+.reminder-info-label {
+    font-weight: 700;
+    color: #6b7280;
+    min-width: 100px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.reminder-info-value {
+    color: #1f2937;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.reminder-photo {
+    margin-top: 1.25rem;
+    border-radius: 0.75rem;
+    overflow: hidden;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 1;
+}
+
+.reminder-photo img {
+    width: 100%;
+    max-height: 250px;
+    object-fit: cover;
+    display: block;
+}
+
+/* Bakıcı Modu - Kompakt Kart */
+body.caregiver-mode .reminder-card.caregiver-mode-card {
+    padding: 1rem;
+    border-left-width: 3px;
+    margin-bottom: 0.75rem;
+}
+
+body.caregiver-mode .reminder-card-compact {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    width: 100%;
+}
+
+body.caregiver-mode .reminder-compact-left {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex: 1;
+    min-width: 0;
+}
+
+body.caregiver-mode .reminder-compact-icon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+    width: 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f0fdf4;
+    border-radius: 0.5rem;
+}
+
+body.caregiver-mode .reminder-card.reminder-urgency-red .reminder-compact-icon {
+    background: #fef2f2;
+}
+
+body.caregiver-mode .reminder-compact-content {
+    flex: 1;
+    min-width: 0;
+}
+
+body.caregiver-mode .reminder-compact-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1f2937;
+    margin: 0 0 0.25rem 0;
+    line-height: 1.3;
+}
+
+body.caregiver-mode .reminder-compact-description {
+    font-size: 0.875rem;
+    color: #6b7280;
+    margin: 0;
+    line-height: 1.4;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+body.caregiver-mode .reminder-compact-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.5rem;
+    flex-shrink: 0;
+}
+
+body.caregiver-mode .reminder-compact-date {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #6b7280;
+}
+
+body.caregiver-mode .reminder-delete-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+    transition: all 0.2s ease;
+    color: #ef4444;
+}
+
+body.caregiver-mode .reminder-delete-btn:hover {
+    background: #fee2e2;
+    color: #dc2626;
+    transform: scale(1.1);
+}
+
+body.caregiver-mode .reminder-delete-btn .delete-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+}
+
+/* Hasta Modu - Kompakt Kart (Bakıcı ile aynı yapı ama büyük) */
+body.patient-mode .reminder-card.caregiver-mode-card,
+body.patient-mode .reminder-card.patient-mode-card {
+    padding: 1.5rem;
+    border-left-width: 5px;
+    margin-bottom: 1rem;
+}
+
+body.patient-mode .reminder-card-compact {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    width: 100%;
+}
+
+body.patient-mode .reminder-compact-left {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    flex: 1;
+    min-width: 0;
+}
+
+body.patient-mode .reminder-compact-icon {
+    font-size: 2.5rem;
+    flex-shrink: 0;
+    width: 4rem;
+    height: 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+    border-radius: 1rem;
+    box-shadow: 0 2px 8px rgba(36, 160, 133, 0.2);
+}
+
+body.patient-mode .reminder-card.reminder-urgency-red .reminder-compact-icon {
+    background: linear-gradient(135deg, #fef2f2, #fee2e2);
+    box-shadow: 0 2px 8px rgba(239, 68, 68, 0.2);
+}
+
+body.patient-mode .reminder-compact-content {
+    flex: 1;
+    min-width: 0;
+}
+
+body.patient-mode .reminder-compact-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #000000;
+    margin: 0 0 0.5rem 0;
+    line-height: 1.3;
+}
+
+body.patient-mode .reminder-compact-description {
+    font-size: 1.25rem;
+    color: #1f2937;
+    margin: 0;
+    font-weight: 600;
+    line-height: 1.5;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+body.patient-mode .reminder-compact-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.75rem;
+    flex-shrink: 0;
+}
+
+body.patient-mode .reminder-compact-date {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #000000;
+}
+
+body.patient-mode .reminder-delete-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.75rem;
+    transition: all 0.2s ease;
+    color: #ef4444;
+}
+
+body.patient-mode .reminder-delete-btn:hover {
+    background: #fee2e2;
+    color: #dc2626;
+    transform: scale(1.15);
+}
+
+body.patient-mode .reminder-delete-btn .delete-icon {
+    width: 2rem;
+    height: 2rem;
+}
+
+/* Reminder Modal */
+.reminder-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    padding: 1rem;
+    animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.reminder-modal {
+    background: #ffffff;
+    border-radius: 1rem;
+    max-width: 600px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.reminder-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.reminder-modal-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1f2937;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.reminder-modal-title-icon {
+    font-size: 2rem;
+}
+
+.reminder-modal-close {
+    width: 2rem;
+    height: 2rem;
+    border: none;
+    background: #f3f4f6;
+    border-radius: 0.5rem;
+    font-size: 1.25rem;
+    color: #6b7280;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.reminder-modal-close:hover {
+    background: #e5e7eb;
+    color: #1f2937;
+}
+
+.reminder-modal-body {
+    padding: 1.5rem;
+}
+
+.reminder-modal-section {
+    margin-bottom: 1.5rem;
+}
+
+.reminder-modal-section:last-child {
+    margin-bottom: 0;
+}
+
+.reminder-modal-section-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #374151;
+    margin: 0 0 0.75rem 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 0.875rem;
+}
+
+.reminder-modal-text {
+    font-size: 1rem;
+    color: #1f2937;
+    margin: 0;
+    line-height: 1.6;
+}
+
+.reminder-modal-info-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.reminder-modal-info-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.reminder-modal-info-label {
+    font-weight: 600;
+    color: #6b7280;
+    min-width: 100px;
+    font-size: 0.875rem;
+}
+
+.reminder-modal-info-value {
+    color: #1f2937;
+    font-weight: 500;
+}
+
+.reminder-modal-photo {
+    border-radius: 0.75rem;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.reminder-modal-photo img {
+    width: 100%;
+    max-height: 300px;
+    object-fit: cover;
+    display: block;
+}
+
+.reminder-modal-urgency-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    font-size: 0.875rem;
+}
+
+.reminder-modal-urgency-badge.urgency-red {
+    background: #fef2f2;
+    color: #dc2626;
+}
+
+.reminder-modal-urgency-badge.urgency-green {
+    background: #f0fdf4;
+    color: #15803d;
+}
+
+/* Dark Mode Modal */
+.dark-mode .reminder-modal {
+    background: #1f2937;
+}
+
+.dark-mode .reminder-modal-header {
+    border-bottom-color: #374151;
+}
+
+.dark-mode .reminder-modal-title {
+    color: #ffffff;
+}
+
+.dark-mode .reminder-modal-close {
+    background: #374151;
+    color: #9ca3af;
+}
+
+.dark-mode .reminder-modal-close:hover {
+    background: #4b5563;
+    color: #ffffff;
+}
+
+.dark-mode .reminder-modal-section-title {
+    color: #9ca3af;
+}
+
+.dark-mode .reminder-modal-text {
+    color: #e2e8f0;
+}
+
+.dark-mode .reminder-modal-info-label {
+    color: #9ca3af;
+}
+
+.dark-mode .reminder-modal-info-value {
+    color: #e2e8f0;
+}
+
+.dark-mode .reminder-modal-urgency-badge.urgency-red {
+    background: #2d1b1b;
+    color: #fca5a5;
+}
+
+.dark-mode .reminder-modal-urgency-badge.urgency-green {
+    background: #1a2e1a;
+    color: #86efac;
+}
+
+/* Hasta Modu Modal Stilleri */
+body.patient-mode .reminder-modal {
+    max-width: 800px;
+    border-radius: 1.5rem;
+    border: 3px solid #24a085;
+}
+
+body.patient-mode .reminder-modal-header {
+    padding: 2rem;
+    border-bottom-width: 2px;
+    border-bottom-color: #24a085;
+}
+
+body.patient-mode .reminder-modal-title {
+    font-size: 2.5rem;
+    color: #000000;
+    font-weight: 700;
+}
+
+body.patient-mode .reminder-modal-title-icon {
+    font-size: 3rem;
+}
+
+body.patient-mode .reminder-modal-close {
+    width: 3rem;
+    height: 3rem;
+    font-size: 2rem;
+    background: #fef2f2;
+    border: 2px solid #ef4444;
+    color: #dc2626;
+    font-weight: 700;
+    border-radius: 0.75rem;
+}
+
+body.patient-mode .reminder-modal-close:hover {
+    background: #fee2e2;
+    transform: scale(1.1);
+}
+
+body.patient-mode .reminder-modal-body {
+    padding: 2rem;
+}
+
+body.patient-mode .reminder-modal-section {
+    margin-bottom: 2rem;
+}
+
+body.patient-mode .reminder-modal-section-title {
+    font-size: 1.5rem;
+    color: #000000;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    text-transform: none;
+    letter-spacing: 0;
+}
+
+body.patient-mode .reminder-modal-text {
+    font-size: 1.25rem;
+    color: #000000;
+    font-weight: 600;
+    line-height: 1.8;
+}
+
+body.patient-mode .reminder-modal-info-grid {
+    gap: 1rem;
+}
+
+body.patient-mode .reminder-modal-info-item {
+    padding: 1rem;
+    background: #f0fdf4;
+    border-radius: 0.75rem;
+    border-left: 4px solid #24a085;
+}
+
+body.patient-mode .reminder-modal-info-label {
+    font-size: 1.125rem;
+    color: #000000;
+    font-weight: 700;
+    min-width: 150px;
+}
+
+body.patient-mode .reminder-modal-info-value {
+    font-size: 1.25rem;
+    color: #000000;
+    font-weight: 600;
+}
+
+body.patient-mode .reminder-modal-photo {
+    border-radius: 1rem;
+    border: 3px solid #24a085;
+}
+
+body.patient-mode .reminder-modal-photo img {
+    max-height: 400px;
+}
+
+body.patient-mode .reminder-modal-urgency-badge {
+    padding: 1.25rem 1.5rem;
+    font-size: 1.25rem;
+    border-radius: 0.75rem;
+    border: 3px solid;
+}
+
+body.patient-mode .reminder-modal-urgency-badge.urgency-red {
+    border-color: #ef4444;
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+body.patient-mode .reminder-modal-urgency-badge.urgency-green {
+    border-color: #16a34a;
+    background: #dcfce7;
+    color: #15803d;
+}
+
+/* Hasta Modu Dark Mode Modal */
+body.patient-mode.dark-mode .reminder-modal {
+    border-color: #24a085;
+    background: linear-gradient(to bottom right, #0a1f1a, #0f2e28);
+}
+
+body.patient-mode.dark-mode .reminder-modal-header {
+    border-bottom-color: #24a085;
+}
+
+body.patient-mode.dark-mode .reminder-modal-title {
+    color: #ffffff;
+}
+
+body.patient-mode.dark-mode .reminder-modal-section-title {
+    color: #ffffff;
+}
+
+body.patient-mode.dark-mode .reminder-modal-text {
+    color: #ffffff;
+}
+
+body.patient-mode.dark-mode .reminder-modal-info-item {
+    background: #1a2e1a;
+    border-left-color: #24a085;
+}
+
+body.patient-mode.dark-mode .reminder-modal-info-label {
+    color: #ffffff;
+}
+
+body.patient-mode.dark-mode .reminder-modal-info-value {
+    color: #ffffff;
 }
 
 /* Loading Animation */
@@ -759,7 +1410,6 @@ body {
 .dark-mode .stat-card,
 .dark-mode .chat-section,
 .dark-mode .reminders-section,
-.dark-mode .quick-actions,
 .dark-mode .footer {
     background-color: #1e293b;
     color: #e2e8f0;
@@ -767,13 +1417,11 @@ body {
 }
 
 .dark-mode .logo-text,
-.dark-mode .section-title,
-.dark-mode .quick-actions-title {
+.dark-mode .section-title {
     color: #e2e8f0;
 }
 
-.dark-mode .stat-label,
-.dark-mode .quick-action-text {
+.dark-mode .stat-label {
     color: #cbd5e1;
 }
 
@@ -901,6 +1549,21 @@ body {
     color: #64748b;
 }
 
+.dark-mode .form-textarea {
+    background-color: #1e293b;
+    border-color: #334155;
+    color: #e2e8f0;
+}
+
+.dark-mode .form-textarea:focus {
+    border-color: #24a085;
+    box-shadow: 0 0 0 3px rgba(36, 160, 133, 0.2);
+}
+
+.dark-mode .form-textarea::placeholder {
+    color: #64748b;
+}
+
 /* Dark Mode - Back to Dashboard Button */
 .dark-mode .back-to-dashboard-btn {
     color: #68c98b;
@@ -949,6 +1612,140 @@ body {
     background-color: #1e293b;
 }
 
+.dark-mode .reminder-card {
+    background: #ffffff;
+    border-left-color: #24a085;
+    border-top-color: #f0fdf4;
+}
+
+.dark-mode .reminder-card.reminder-urgency-red {
+    background: #ffffff;
+    border-left-color: #ef4444;
+    border-top-color: #fee2e2;
+}
+
+.dark-mode .reminder-card.reminder-urgency-red:hover {
+    box-shadow: 0 8px 24px rgba(239, 68, 68, 0.2), 0 4px 8px rgba(239, 68, 68, 0.1);
+}
+
+.dark-mode .reminder-card.reminder-urgency-green {
+    background: #ffffff;
+    border-left-color: #16a34a;
+    border-top-color: #dcfce7;
+}
+
+.dark-mode .reminder-card.reminder-urgency-green:hover {
+    box-shadow: 0 8px 24px rgba(22, 163, 74, 0.2), 0 4px 8px rgba(22, 163, 74, 0.1);
+}
+
+.dark-mode .reminder-card:hover {
+    border-top-color: #24a085;
+}
+
+.dark-mode .reminder-icon {
+    background: linear-gradient(135deg, #1e293b, #0f172a);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.dark-mode .reminder-card.reminder-urgency-red .reminder-icon {
+    background: linear-gradient(135deg, #2d1b1b, #1f1f1f);
+}
+
+.dark-mode .reminder-card.reminder-urgency-green .reminder-icon {
+    background: linear-gradient(135deg, #1a2e1a, #0f172a);
+}
+
+.dark-mode .reminder-title {
+    color: #1f2937 !important;
+}
+
+.dark-mode .reminder-description {
+    color: #6b7280 !important;
+}
+
+/* Dark Mode + Patient Mode kombinasyonu için yazı renkleri */
+body.patient-mode.dark-mode .reminder-title {
+    color: #000000 !important;
+}
+
+body.patient-mode.dark-mode .reminder-description {
+    color: #1f2937 !important;
+}
+
+/* Dark Mode + Caregiver Mode kombinasyonu için yazı renkleri */
+body.caregiver-mode.dark-mode .reminder-title {
+    color: #1f2937 !important;
+}
+
+body.caregiver-mode.dark-mode .reminder-description {
+    color: #6b7280 !important;
+}
+
+.dark-mode .reminder-compact-title {
+    color: #1f2937 !important;
+}
+
+.dark-mode .reminder-compact-description {
+    color: #6b7280 !important;
+}
+
+.dark-mode .reminder-compact-date {
+    color: #6b7280 !important;
+}
+
+/* Dark Mode + Patient Mode kombinasyonu için yazı renkleri */
+body.patient-mode.dark-mode .reminder-compact-title {
+    color: #000000 !important;
+}
+
+body.patient-mode.dark-mode .reminder-compact-description {
+    color: #1f2937 !important;
+}
+
+body.patient-mode.dark-mode .reminder-compact-date {
+    color: #000000 !important;
+}
+
+/* Dark Mode + Caregiver Mode kombinasyonu için yazı renkleri */
+body.caregiver-mode.dark-mode .reminder-compact-title {
+    color: #1f2937 !important;
+}
+
+body.caregiver-mode.dark-mode .reminder-compact-description {
+    color: #6b7280 !important;
+}
+
+body.caregiver-mode.dark-mode .reminder-compact-date {
+    color: #6b7280 !important;
+}
+
+.dark-mode .reminder-info-label {
+    color: #9ca3af;
+}
+
+.dark-mode .reminder-info-value {
+    color: #e2e8f0;
+}
+
+.dark-mode .reminder-card-body {
+    border-top-color: #4b5563;
+}
+
+.dark-mode .reminder-urgency-badge {
+    background: #1f2937;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* Dark Mode - Reminder Delete Button */
+.dark-mode .reminder-delete-btn {
+    color: #f87171;
+}
+
+.dark-mode .reminder-delete-btn:hover {
+    background: #7f1d1d;
+    color: #fca5a5;
+}
+
 /* Dark Mode - Add Button */
 .dark-mode .add-button {
     background-color: #24a085;
@@ -959,30 +1756,6 @@ body {
 }
 
 /* Dark Mode - Quick Actions */
-.dark-mode .quick-action-blue,
-.dark-mode .quick-action-green,
-.dark-mode .quick-action-purple,
-.dark-mode .quick-action-orange {
-    background-color: rgba(36, 160, 133, 0.1);
-}
-
-.dark-mode .quick-action-blue:hover,
-.dark-mode .quick-action-green:hover,
-.dark-mode .quick-action-purple:hover,
-.dark-mode .quick-action-orange:hover {
-    background-color: rgba(36, 160, 133, 0.2);
-}
-
-.dark-mode .quick-action-blue .quick-action-icon,
-.dark-mode .quick-action-green .quick-action-icon,
-.dark-mode .quick-action-purple .quick-action-icon,
-.dark-mode .quick-action-orange .quick-action-icon {
-    color: #68c98b;
-}
-
-.dark-mode .quick-action-text {
-    color: #e2e8f0;
-}
 
 /* ============================================
    LOGIN PAGE STYLES (Giriş Sayfası)
@@ -1098,6 +1871,30 @@ body {
 }
 
 .form-input::placeholder {
+    color: #9ca3af;
+}
+
+.form-textarea {
+    width: 100%;
+    padding: 0.875rem 1rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    font-family: 'Inter', sans-serif;
+    color: #1f2937;
+    background: #ffffff;
+    resize: vertical;
+    min-height: 100px;
+    transition: all 0.2s;
+    outline: none;
+}
+
+.form-textarea:focus {
+    border-color: #24a085;
+    box-shadow: 0 0 0 3px rgba(36, 160, 133, 0.1);
+}
+
+.form-textarea::placeholder {
     color: #9ca3af;
 }
 
@@ -1369,6 +2166,32 @@ body {
         max-height: 300px;
     }
     
+    .reminder-card {
+        padding: 1.25rem;
+    }
+    
+    .reminder-icon {
+        width: 3.5rem;
+        height: 3.5rem;
+        font-size: 2.5rem;
+    }
+    
+    .reminder-title {
+        font-size: 1.75rem;
+    }
+    
+    .reminder-description {
+        font-size: 1.125rem;
+    }
+    
+    .reminder-info-row {
+        font-size: 1.125rem;
+    }
+    
+    .reminder-info-value {
+        font-size: 1.125rem;
+    }
+    
     /* Login Page Responsive */
     .login-card {
         padding: 2rem 1.5rem;
@@ -1407,4 +2230,681 @@ body {
     .back-to-dashboard-btn {
         padding: 0.5rem;
     }
+}
+
+/* ============================================
+   HASTA MODU STİLLERİ
+   ============================================ */
+
+/* Kullanıcı Tipi Seçici */
+.user-type-selector {
+    display: flex;
+    gap: 1rem;
+}
+
+.user-type-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem 1.5rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 0.75rem;
+    background: #ffffff;
+    cursor: pointer;
+    transition: all 0.3s;
+    min-width: 120px;
+}
+
+.user-type-btn:hover {
+    border-color: #24a085;
+    background-color: #f0fdf4;
+    transform: translateY(-2px);
+}
+
+.user-type-btn.active {
+    border-color: #24a085;
+    background: linear-gradient(to bottom right, #bdfff4, #24a085);
+    color: #ffffff;
+}
+
+.user-type-btn .icon {
+    width: 2rem;
+    height: 2rem;
+}
+
+.user-type-btn span {
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+/* Hasta Modu - Daha Koyu Yeşil Tonlar, Belirgin Siyah Yazılar, Büyük Boyutlar */
+body.patient-mode {
+    /* Daha koyu yeşil tonlar */
+    background: linear-gradient(to bottom right, #0d9488, #065f46);
+}
+
+body.patient-mode .logo-icon {
+    background: linear-gradient(to bottom right, #0d9488, #065f46);
+}
+
+body.patient-mode .stat-card {
+    padding: 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+}
+
+body.patient-mode .stat-label {
+    font-size: 1.125rem;
+    color: #000000;
+    font-weight: 600;
+}
+
+body.patient-mode .stat-value.stat-blue,
+body.patient-mode .stat-value.stat-green,
+body.patient-mode .stat-value.stat-purple,
+body.patient-mode .stat-value.stat-orange {
+    color: #065f46;
+    font-size: 2.25rem;
+}
+
+body.patient-mode .login-button,
+body.patient-mode .register-button {
+    background: linear-gradient(to bottom right, #0d9488, #065f46);
+    min-height: 3.5rem;
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+
+/* Hasta Modu - Yazı Renkleri Belirgin Siyah */
+body.patient-mode {
+    color: #000000;
+}
+
+body.patient-mode h1,
+body.patient-mode h2,
+body.patient-mode h3,
+body.patient-mode h4,
+body.patient-mode p,
+body.patient-mode .stat-label,
+body.patient-mode .stat-value,
+body.patient-mode .section-title,
+body.patient-mode .login-title,
+body.patient-mode .login-subtitle,
+body.patient-mode .form-label,
+body.patient-mode .chat-bubble p,
+body.patient-mode .user-name,
+body.patient-mode .logo-text {
+    color: #000000;
+    font-weight: 600;
+}
+
+/* Hasta Modu - Yazı ve Sembol Boyutlarını Arttır */
+body.patient-mode {
+    font-size: 1.125rem;
+}
+
+body.patient-mode h1 {
+    font-size: 2rem;
+}
+
+body.patient-mode h2 {
+    font-size: 1.75rem;
+}
+
+body.patient-mode h3 {
+    font-size: 1.5rem;
+}
+
+body.patient-mode h4 {
+    font-size: 1.25rem;
+}
+
+body.patient-mode .logo-text {
+    font-size: 1.75rem;
+}
+
+body.patient-mode .logo-icon {
+    width: 3rem;
+    height: 3rem;
+}
+
+body.patient-mode .logo-icon span {
+    font-size: 1.5rem;
+}
+
+body.patient-mode .icon {
+    width: 1.75rem;
+    height: 1.75rem;
+}
+
+body.patient-mode .stat-icon {
+    width: 3rem;
+    height: 3rem;
+}
+
+body.patient-mode .stat-icon .icon {
+    width: 2rem;
+    height: 2rem;
+}
+
+body.patient-mode .section-title {
+    font-size: 1.5rem;
+}
+
+body.patient-mode .section-title .icon {
+    width: 2rem;
+    height: 2rem;
+}
+
+/* Hasta Modu - Buton Boyutlarını Arttır ve Daha Basılabilir Hale Getir */
+body.patient-mode button,
+body.patient-mode .login-button,
+body.patient-mode .register-button,
+body.patient-mode .send-button,
+body.patient-mode .add-button,
+body.patient-mode .user-menu-btn {
+    padding: 1rem 1.5rem;
+    min-height: 3.5rem;
+    font-size: 1.125rem;
+    font-weight: 600;
+    border-radius: 0.75rem;
+}
+
+body.patient-mode .theme-toggle-switch {
+    padding: 1.5rem !important;
+    min-height: 5rem !important;
+    font-size: 1.125rem;
+    font-weight: 600;
+    border-radius: 0.75rem;
+    width: 5rem !important;
+    height: 5rem !important;
+    color: #000000 !important;
+    background-color: #f0fdf4;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+body.patient-mode .theme-toggle-switch:hover {
+    background-color: #dcfce7;
+    color: #000000 !important;
+}
+
+body.patient-mode .theme-toggle-switch .icon {
+    width: 4rem !important;
+    height: 4rem !important;
+    color: #000000 !important;
+    stroke: #000000 !important;
+    stroke-width: 2.5 !important;
+}
+
+body.patient-mode .theme-toggle-switch svg.icon {
+    width: 4rem !important;
+    height: 4rem !important;
+}
+
+body.patient-mode.dark-mode .theme-toggle-switch {
+    color: #ffffff !important;
+    background-color: #334155;
+}
+
+body.patient-mode.dark-mode .theme-toggle-switch {
+    color: #ffffff !important;
+    background-color: #334155;
+    width: 5rem !important;
+    height: 5rem !important;
+    padding: 1.5rem !important;
+    min-height: 5rem !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+body.patient-mode.dark-mode .theme-toggle-switch:hover {
+    background-color: #475569;
+    color: #ffffff !important;
+}
+
+body.patient-mode.dark-mode .theme-toggle-switch .icon {
+    width: 4rem !important;
+    height: 4rem !important;
+    color: #ffffff !important;
+    stroke: #ffffff !important;
+    stroke-width: 2.5 !important;
+}
+
+body.patient-mode.dark-mode .theme-toggle-switch svg.icon {
+    width: 4rem !important;
+    height: 4rem !important;
+}
+
+body.patient-mode .user-menu-btn {
+    padding: 0.75rem 1rem;
+}
+
+body.patient-mode .send-button {
+    padding: 0.75rem 1.5rem;
+    min-width: 120px;
+}
+
+body.patient-mode .add-button {
+    padding: 0.75rem 1rem;
+    min-width: 100px;
+}
+
+/* Hasta Modu - Form Elementleri */
+body.patient-mode input,
+body.patient-mode textarea {
+    font-size: 1.125rem;
+    padding: 1rem;
+    min-height: 3rem;
+}
+
+body.patient-mode .form-label {
+    font-size: 1.125rem;
+    font-weight: 600;
+}
+
+body.patient-mode .form-label .icon {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+/* Hasta Modu - Chat Bölümü */
+body.patient-mode .chat-bubble {
+    font-size: 1.125rem;
+    padding: 1rem 1.25rem;
+    line-height: 1.6;
+}
+
+body.patient-mode .chat-input {
+    font-size: 1.125rem;
+    padding: 1rem;
+    min-height: 3rem;
+}
+
+/* Hasta Modu - Dark Mode Uyumlamaları */
+body.patient-mode.dark-mode {
+    background: linear-gradient(to bottom right, #052e16, #031f0e);
+}
+
+body.patient-mode.dark-mode h1,
+body.patient-mode.dark-mode h2,
+body.patient-mode.dark-mode h3,
+body.patient-mode.dark-mode h4,
+body.patient-mode.dark-mode p,
+body.patient-mode.dark-mode .stat-label,
+body.patient-mode.dark-mode .stat-value,
+body.patient-mode.dark-mode .section-title,
+body.patient-mode.dark-mode .login-title,
+body.patient-mode.dark-mode .login-subtitle,
+body.patient-mode.dark-mode .form-label,
+body.patient-mode.dark-mode .chat-bubble p,
+body.patient-mode.dark-mode .user-name,
+body.patient-mode.dark-mode .logo-text {
+    color: #ffffff;
+}
+
+
+/* Bakıcı Modu - Mevcut Tasarım (Default) */
+body.caregiver-mode {
+    /* Mevcut tasarım korunur */
+}
+
+
+/* ============================================
+   HATIRLATICI EKLEME FORMU
+   ============================================ */
+
+.add-reminder-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}
+
+.add-reminder-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.reminder-form {
+    background: #ffffff;
+    border-radius: 1rem;
+    padding: 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.form-section {
+    margin-bottom: 2rem;
+}
+
+.form-section-label {
+    display: block;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 1rem;
+}
+
+/* Başlık Seçenekleri */
+.title-options-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.title-option-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 0.75rem;
+    background: #ffffff;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.title-option-btn:hover {
+    border-color: #24a085;
+    background: #f0fdf4;
+}
+
+.title-option-btn.active {
+    border-color: #24a085;
+    background: linear-gradient(to bottom right, #bdfff4, #24a085);
+    color: #ffffff;
+}
+
+.title-option-icon {
+    font-size: 2rem;
+}
+
+.title-option-label {
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+/* Tekrarlı/Tek Seferlik Toggle */
+.recurrence-toggle {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.toggle-btn {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 0.5rem;
+    background: #ffffff;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.toggle-btn:hover {
+    border-color: #24a085;
+    background: #f0fdf4;
+}
+
+.toggle-btn.active {
+    border-color: #24a085;
+    background: linear-gradient(to bottom right, #bdfff4, #24a085);
+    color: #ffffff;
+}
+
+.recurrence-options {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.recurrence-count {
+    max-width: 120px;
+}
+
+/* Tarih ve Saat */
+.datetime-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.datetime-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.datetime-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #6b7280;
+    margin-bottom: 0.5rem;
+}
+
+.datetime-input {
+    padding: 0.75rem;
+    font-size: 1rem;
+}
+
+/* Fotoğraf Yükleme */
+.photo-upload-area {
+    border: 2px dashed #e5e7eb;
+    border-radius: 0.75rem;
+    padding: 2rem;
+    text-align: center;
+    background: #f9fafb;
+}
+
+.photo-upload-label {
+    display: block;
+    cursor: pointer;
+}
+
+.photo-input {
+    display: none;
+}
+
+.photo-upload-text {
+    font-size: 1.125rem;
+    color: #6b7280;
+    font-weight: 500;
+}
+
+.photo-preview {
+    position: relative;
+    display: inline-block;
+}
+
+.photo-preview img {
+    max-width: 200px;
+    max-height: 200px;
+    border-radius: 0.5rem;
+    object-fit: cover;
+}
+
+.remove-photo-btn {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background: #ef4444;
+    color: #ffffff;
+    border: none;
+    cursor: pointer;
+    font-size: 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Form Select */
+.form-select {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    background: #ffffff;
+    color: #1f2937;
+    cursor: pointer;
+    transition: border-color 0.3s;
+}
+
+.form-select:focus {
+    outline: none;
+    border-color: #24a085;
+}
+
+/* Aciliyet Seçenekleri */
+.urgency-options {
+    display: flex;
+    gap: 1rem;
+}
+
+.urgency-btn {
+    flex: 1;
+    padding: 1rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 0.75rem;
+    background: #ffffff;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-size: 1rem;
+}
+
+.urgency-red {
+    border-color: #fecaca;
+}
+
+.urgency-red:hover,
+.urgency-red.active {
+    background: #fee2e2;
+    border-color: #ef4444;
+    color: #dc2626;
+}
+
+.urgency-green {
+    border-color: #bbf7d0;
+}
+
+.urgency-green:hover,
+.urgency-green.active {
+    background: #dcfce7;
+    border-color: #16a34a;
+    color: #15803d;
+}
+
+/* Form Butonları */
+.form-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 2px solid #e5e7eb;
+}
+
+.form-btn {
+    flex: 1;
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 0.75rem;
+    font-size: 1.125rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.form-btn-cancel {
+    background: #f3f4f6;
+    color: #374151;
+}
+
+.form-btn-cancel:hover {
+    background: #e5e7eb;
+}
+
+.form-btn-submit {
+    background: linear-gradient(to bottom right, #bdfff4, #24a085);
+    color: #ffffff;
+}
+
+.form-btn-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(36, 160, 133, 0.3);
+}
+
+/* Hasta Modu Form Stilleri */
+body.patient-mode .add-reminder-title {
+    font-size: 2.5rem;
+    color: #000000;
+}
+
+body.patient-mode .form-section-label {
+    font-size: 1.5rem;
+    color: #000000;
+}
+
+body.patient-mode .form-input,
+body.patient-mode .form-select,
+body.patient-mode .form-textarea {
+    font-size: 1.25rem;
+    padding: 1rem;
+    min-height: 3.5rem;
+}
+
+body.patient-mode .form-textarea {
+    min-height: 120px;
+}
+
+body.patient-mode .title-option-btn,
+body.patient-mode .toggle-btn,
+body.patient-mode .urgency-btn {
+    padding: 1.25rem;
+    font-size: 1.125rem;
+}
+
+body.patient-mode .form-btn {
+    padding: 1.25rem 2rem;
+    font-size: 1.25rem;
+    min-height: 3.5rem;
+}
+
+/* Dark Mode Form Stilleri */
+.dark-mode .reminder-form {
+    background: #1f2937;
+}
+
+.dark-mode .add-reminder-title,
+.dark-mode .form-section-label {
+    color: #ffffff;
+}
+
+.dark-mode .form-input,
+.dark-mode .form-select {
+    background: #374151;
+    border-color: #4b5563;
+    color: #ffffff;
+}
+
+.dark-mode .title-option-btn,
+.dark-mode .toggle-btn {
+    background: #374151;
+    border-color: #4b5563;
+    color: #ffffff;
+}
+
+.dark-mode .photo-upload-area {
+    background: #374151;
+    border-color: #4b5563;
 }

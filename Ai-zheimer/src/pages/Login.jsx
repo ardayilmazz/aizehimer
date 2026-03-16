@@ -6,6 +6,16 @@ function Login() {
   useEffect(() => {
     // Test kullanıcısını oluştur
     createDefaultUser()
+    
+    // Kullanıcı tipini uygula (default: patient)
+    const userType = storage.get(storageKeys.USER_TYPE) || 'patient'
+    if (userType === 'patient') {
+      document.body.classList.add('patient-mode')
+      document.body.classList.remove('caregiver-mode')
+    } else {
+      document.body.classList.add('caregiver-mode')
+      document.body.classList.remove('patient-mode')
+    }
   }, [])
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')

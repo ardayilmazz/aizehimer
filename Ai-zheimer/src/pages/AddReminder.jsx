@@ -1,28 +1,77 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import Header from '../components/Layout/Header'
-import Footer from '../components/Layout/Footer'
-import { storageKeys, storage } from '../utils/storage'
+import { useState, useEffect } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+import Header from '../Components/Layout/Header'
+import Footer from '../Components/Layout/Footer'
+import {
+  storageKeys,
+  storage,
+  getRemindersBuckets,
+  findReminderInBuckets,
+  removeReminderFromAllBuckets
+} from '../utils/storage'
+
+/** @typedef {import('../Interfaces/reminder.js').ReminderFormFields} ReminderFormFields */
+
+const emptyForm = () => ({
+  title: '',
+  titleType: '',
+  description: '',
+  isRecurring: false,
+  recurrenceType: '',
+  recurrenceCount: 1,
+  date: '',
+  time: '',
+  photo: null,
+  personName: '',
+  personPhone: '',
+  personEmail: '',
+  location: '',
+  urgency: 'green'
+})
+
+function reminderToForm(reminder) {
+  const time =
+    reminder.time && reminder.time.length >= 5
+      ? reminder.time.substring(0, 5)
+      : reminder.time || ''
+  return {
+    title: reminder.title ?? '',
+    titleType: reminder.titleType ?? '',
+    description: reminder.description ?? '',
+    isRecurring: Boolean(reminder.isRecurring),
+    recurrenceType: reminder.recurrenceType ?? '',
+    recurrenceCount: reminder.recurrenceCount ?? 1,
+    date: reminder.date ?? '',
+    time,
+    photo: reminder.photo ?? null,
+    personName: reminder.personName ?? '',
+    personPhone: reminder.personPhone ?? '',
+    personEmail: reminder.personEmail ?? '',
+    location: reminder.location ?? '',
+    urgency: reminder.urgency === 'red' ? 'red' : 'green'
+  }
+}
 
 function AddReminder() {
   const navigate = useNavigate()
-  
-  const [formData, setFormData] = useState({
-    title: '',
-    titleType: '', // 'medicine', 'food', 'appointment', 'water', 'custom'
-    description: '', // Açıklama/Detay
-    isRecurring: false,
-    recurrenceType: '', // 'daily', 'weekly', 'monthly'
-    recurrenceCount: 1, // kaç kere
-    date: '',
-    time: '',
-    photo: null,
-    personName: '',
-    personPhone: '',
-    personEmail: '',
-    location: '', // 'kitchen', 'bathroom', 'bedroom'
-    urgency: 'green' // 'red' veya 'green'
-  })
+  const { id: paramId } = useParams()
+  const isEditMode = Boolean(paramId)
+
+  const [formData, setFormData] = useState(emptyForm)
+
+  useEffect(() => {
+    if (!isEditMode) {
+      setFormData(emptyForm())
+      return
+    }
+    const buckets = getRemindersBuckets()
+    const found = findReminderInBuckets(buckets, paramId)
+    if (!found) {
+      navigate('/dashboard', { replace: true })
+      return
+    }
+    setFormData(reminderToForm(found.reminder))
+  }, [isEditMode, paramId, navigate])
 
   const titleOptions = [
     { value: 'medicine', label: 'İlaç', icon: '💊' },
@@ -55,16 +104,31 @@ function AddReminder() {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    
-    const reminders = storage.get(storageKeys.REMINDERS) || { daily: [], weekly: [], monthly: [], yearly: [] }
-    
-    const newReminder = {
-      id: Date.now(),
-      ...formData,
-      createdAt: new Date().toISOString()
+
+    let reminders = getRemindersBuckets()
+    let reminderId
+    let createdAt
+
+    if (isEditMode) {
+      const found = findReminderInBuckets(reminders, paramId)
+      if (!found) {
+        navigate('/dashboard', { replace: true })
+        return
+      }
+      reminderId = found.reminder.id
+      createdAt = found.reminder.createdAt
+      reminders = removeReminderFromAllBuckets(reminders, reminderId)
+    } else {
+      reminderId = Date.now()
+      createdAt = new Date().toISOString()
     }
 
-    // Tekrarlı tipine göre ilgili listeye ekle
+    const newReminder = {
+      id: reminderId,
+      ...formData,
+      createdAt
+    }
+
     if (formData.isRecurring) {
       if (formData.recurrenceType === 'daily') {
         reminders.daily.push(newReminder)
@@ -78,10 +142,9 @@ function AddReminder() {
     }
 
     storage.set(storageKeys.REMINDERS, reminders)
-    
-    // Stats güncellemesi için event dispatch et
+
     window.dispatchEvent(new Event('reminderUpdated'))
-    
+
     navigate('/dashboard')
   }
 
@@ -90,7 +153,9 @@ function AddReminder() {
       <Header showBackButton={true} />
       <main className="main-container">
         <div className="add-reminder-container">
-          <h2 className="add-reminder-title">Yeni Hatırlatıcı Ekle</h2>
+          <h2 className="add-reminder-title">
+            {isEditMode ? 'Hatırlatıcıyı Düzenle' : 'Yeni Hatırlatıcı Ekle'}
+          </h2>
           
           <form onSubmit={handleSubmit} className="reminder-form">
             {/* Hatırlatıcı Başlığı */}
@@ -320,7 +385,7 @@ function AddReminder() {
                 type="submit"
                 className="form-btn form-btn-submit"
               >
-                Kaydet
+                {isEditMode ? 'Güncelle' : 'Kaydet'}
               </button>
             </div>
           </form>

@@ -1,6 +1,7 @@
-﻿import { useState } from 'react'
+import { useState } from 'react'
 import ChatMessage from './ChatMessage'
 import ChatInput from './ChatInput'
+import { useGemini } from '../../hooks/useGemini'
 
 function ChatContainer() {
   const [messages, setMessages] = useState([
@@ -11,27 +12,33 @@ function ChatContainer() {
     }
   ])
 
-  const handleSendMessage = (text) => {
-    if (!text.trim()) return
-    
-    // Kullanıcı mesajını ekle
+  const { loading, error, clearError, sendChatMessage } = useGemini()
+
+  const handleSendMessage = async (text) => {
+    if (!text.trim() || loading) return
+
+    clearError()
+
     const userMessage = {
       id: Date.now(),
       type: 'user',
       text: text.trim()
     }
-    
-    setMessages(prev => [...prev, userMessage])
-    
-    // AI yanıtı simüle et (ileride Gemini API ile değiştirilecek)
-    setTimeout(() => {
+
+    const nextMessages = [...messages, userMessage]
+    setMessages(nextMessages)
+
+    try {
+      const replyText = await sendChatMessage(nextMessages)
       const aiMessage = {
         id: Date.now() + 1,
         type: 'ai',
-        text: 'Mesajınızı aldım. Bu özellik yakında aktif olacak!'
+        text: replyText
       }
-      setMessages(prev => [...prev, aiMessage])
-    }, 500)
+      setMessages((prev) => [...prev, aiMessage])
+    } catch {
+      /* useGemini zaten Türkçe hata metnini error state'e yazar */
+    }
   }
 
   return (
@@ -44,14 +51,26 @@ function ChatContainer() {
           AI Asistan
         </h2>
       </div>
-      
+
+      {error && (
+        <div className="chat-inline-error" role="alert">
+          {error}
+        </div>
+      )}
+
       <div className="chat-container">
-        {messages.map(message => (
+        {messages.map((message) => (
           <ChatMessage key={message.id} message={message} />
         ))}
+        {loading && (
+          <ChatMessage
+            key="typing-indicator"
+            message={{ type: 'ai', text: '', isTyping: true }}
+          />
+        )}
       </div>
-      
-      <ChatInput onSend={handleSendMessage} />
+
+      <ChatInput onSend={handleSendMessage} disabled={loading} />
     </div>
   )
 }

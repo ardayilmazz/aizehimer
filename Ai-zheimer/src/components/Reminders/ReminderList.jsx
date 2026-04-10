@@ -110,6 +110,11 @@ function ReminderList() {
     setSelectedReminder(null)
   }
 
+  const handleEditReminder = (e, reminderId) => {
+    e.stopPropagation()
+    navigate(`/edit-reminder/${reminderId}`)
+  }
+
   const handleDeleteReminder = (e, reminderId) => {
     e.stopPropagation() // Card'a tıklama eventini durdur
     
@@ -194,15 +199,28 @@ function ReminderList() {
                 </div>
                 <div className="reminder-compact-right">
                   <div className="reminder-compact-date">{formatDate(reminder.date)}</div>
-                  <button 
-                    className="reminder-delete-btn"
-                    onClick={(e) => handleDeleteReminder(e, reminder.id)}
-                    title="Hatırlatıcıyı Sil"
-                  >
-                    <svg className="delete-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                    </svg>
-                  </button>
+                  <div className="reminder-card-actions">
+                    <button
+                      type="button"
+                      className="reminder-edit-btn"
+                      onClick={(e) => handleEditReminder(e, reminder.id)}
+                      title="Hatırlatıcıyı Düzenle"
+                    >
+                      <svg className="edit-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                      </svg>
+                    </button>
+                    <button 
+                      type="button"
+                      className="reminder-delete-btn"
+                      onClick={(e) => handleDeleteReminder(e, reminder.id)}
+                      title="Hatırlatıcıyı Sil"
+                    >
+                      <svg className="delete-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                      </svg>
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -296,6 +314,20 @@ function ReminderList() {
                   <span>{selectedReminder.urgency === 'red' ? 'Kritik/İlaç' : 'Günlük Aktivite'}</span>
                 </div>
               </div>
+            </div>
+
+            <div className="reminder-modal-footer">
+              <button
+                type="button"
+                className="reminder-modal-edit-btn"
+                onClick={() => {
+                  const id = selectedReminder.id
+                  closeModal()
+                  navigate(`/edit-reminder/${id}`)
+                }}
+              >
+                Düzenle
+              </button>
             </div>
           </div>
         </div>

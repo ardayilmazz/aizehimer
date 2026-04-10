@@ -5,7 +5,15 @@ function ChatMessage({ message }) {
         <span>{message.type === 'ai' ? 'AI' : 'KU'}</span>
       </div>
       <div className={`chat-bubble ${message.type === 'ai' ? 'chat-bubble-ai' : ''}`}>
-        <p>{message.text}</p>
+        {message.isTyping ? (
+          <p className="chat-typing" aria-live="polite">
+            <span className="chat-typing-dot" />
+            <span className="chat-typing-dot" />
+            <span className="chat-typing-dot" />
+          </p>
+        ) : (
+          <p>{message.text}</p>
+        )}
       </div>
     </div>
   )

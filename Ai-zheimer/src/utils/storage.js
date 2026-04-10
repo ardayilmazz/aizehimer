@@ -1,3 +1,6 @@
+/** @typedef {import('../Interfaces/reminder.js').RemindersByBucket} RemindersByBucket */
+/** @typedef {import('../Interfaces/reminder.js').Reminder} Reminder */
+
 // Storage Keys
 export const storageKeys = {
   REMINDERS: 'aizheimer_reminders',
@@ -41,6 +44,42 @@ export const storage = {
     }
   }
 };
+
+const REMINDER_BUCKETS = ['daily', 'weekly', 'monthly', 'yearly'];
+
+/** @returns {RemindersByBucket} */
+export function getRemindersBuckets() {
+  return storage.get(storageKeys.REMINDERS) || {
+    daily: [],
+    weekly: [],
+    monthly: [],
+    yearly: []
+  };
+}
+
+/** @param {RemindersByBucket} reminders @returns {{ bucket: string, index: number, reminder: Reminder } | null} */
+export function findReminderInBuckets(reminders, id) {
+  const target = Number(id);
+  if (Number.isNaN(target)) return null;
+  for (const bucket of REMINDER_BUCKETS) {
+    const index = reminders[bucket].findIndex((r) => Number(r.id) === target);
+    if (index !== -1) {
+      return { bucket, index, reminder: reminders[bucket][index] };
+    }
+  }
+  return null;
+}
+
+/** @param {RemindersByBucket} reminders @returns {RemindersByBucket} */
+export function removeReminderFromAllBuckets(reminders, id) {
+  const target = Number(id);
+  return {
+    daily: reminders.daily.filter((r) => Number(r.id) !== target),
+    weekly: reminders.weekly.filter((r) => Number(r.id) !== target),
+    monthly: reminders.monthly.filter((r) => Number(r.id) !== target),
+    yearly: reminders.yearly.filter((r) => Number(r.id) !== target)
+  };
+}
 
 // Test kullanıcısı oluştur (eğer yoksa)
 export function createDefaultUser() {

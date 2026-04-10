@@ -1,10 +1,10 @@
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import Header from '../components/Layout/Header'
-import Footer from '../components/Layout/Footer'
-import StatsGrid from '../components/Stats/StatsGrid'
-import ChatContainer from '../components/Chat/ChatContainer'
-import ReminderList from '../components/Reminders/ReminderList'
+import Header from '../Components/Layout/Header'
+import Footer from '../Components/Layout/Footer'
+import StatsGrid from '../Components/Stats/StatsGrid'
+import ChatContainer from '../Components/Chat/ChatContainer'
+import ReminderList from '../Components/Reminders/ReminderList'
 import { storageKeys, storage } from '../utils/storage'
 
 function Dashboard() {

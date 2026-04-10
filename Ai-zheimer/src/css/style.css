@@ -494,6 +494,56 @@ body {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
+.send-button:disabled,
+.chat-input:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
+.chat-inline-error {
+    margin: 0 1rem;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    background-color: #fef2f2;
+    color: #b91c1c;
+    font-size: 0.9375rem;
+    border: 1px solid #fecaca;
+}
+
+.chat-typing {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    min-height: 1.25rem;
+}
+
+.chat-typing-dot {
+    width: 0.45rem;
+    height: 0.45rem;
+    border-radius: 50%;
+    background-color: #24a085;
+    animation: chatTypingPulse 1.2s ease-in-out infinite;
+}
+
+.chat-typing-dot:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.chat-typing-dot:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes chatTypingPulse {
+    0%, 60%, 100% {
+        opacity: 0.35;
+        transform: translateY(0);
+    }
+    30% {
+        opacity: 1;
+        transform: translateY(-2px);
+    }
+}
+
 /* ============================================
    REMINDERS SECTION
    ============================================ */
@@ -1002,6 +1052,51 @@ body.patient-mode .reminder-delete-btn .delete-icon {
     height: 2rem;
 }
 
+.reminder-card-actions {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.reminder-edit-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+    transition: all 0.2s ease;
+    color: #2563eb;
+}
+
+.reminder-edit-btn:hover {
+    background: #dbeafe;
+    color: #1d4ed8;
+    transform: scale(1.1);
+}
+
+.reminder-edit-btn .edit-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+}
+
+body.patient-mode .reminder-edit-btn {
+    padding: 0.75rem;
+    border-radius: 0.75rem;
+}
+
+body.patient-mode .reminder-edit-btn .edit-icon {
+    width: 2rem;
+    height: 2rem;
+}
+
+body.patient-mode .reminder-edit-btn:hover {
+    transform: scale(1.15);
+}
+
 /* Reminder Modal */
 .reminder-modal-overlay {
     position: fixed;
@@ -1177,6 +1272,30 @@ body.patient-mode .reminder-delete-btn .delete-icon {
     color: #15803d;
 }
 
+.reminder-modal-footer {
+    padding: 1rem 1.5rem 1.5rem;
+    border-top: 1px solid #e5e7eb;
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+}
+
+.reminder-modal-edit-btn {
+    padding: 0.625rem 1.25rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    font-size: 0.9375rem;
+    cursor: pointer;
+    background: #2563eb;
+    color: #fff;
+    transition: background 0.2s ease;
+}
+
+.reminder-modal-edit-btn:hover {
+    background: #1d4ed8;
+}
+
 /* Dark Mode Modal */
 .dark-mode .reminder-modal {
     background: #1f2937;
@@ -1341,6 +1460,16 @@ body.patient-mode .reminder-modal-urgency-badge.urgency-green {
     color: #15803d;
 }
 
+body.patient-mode .reminder-modal-footer {
+    padding: 1.25rem 1.5rem 1.75rem;
+}
+
+body.patient-mode .reminder-modal-edit-btn {
+    padding: 0.875rem 1.75rem;
+    font-size: 1.125rem;
+    border-radius: 0.75rem;
+}
+
 /* Hasta Modu Dark Mode Modal */
 body.patient-mode.dark-mode .reminder-modal {
     border-color: #24a085;
@@ -1443,6 +1572,16 @@ body.patient-mode.dark-mode .reminder-modal-info-value {
 
 .dark-mode .chat-bubble p {
     color: #e2e8f0;
+}
+
+.dark-mode .chat-inline-error {
+    background-color: #450a0a;
+    color: #fecaca;
+    border-color: #7f1d1d;
+}
+
+.dark-mode .chat-typing-dot {
+    background-color: #5eead4;
 }
 
 /* Dark Mode - User Name */
@@ -1744,6 +1883,27 @@ body.caregiver-mode.dark-mode .reminder-compact-date {
 .dark-mode .reminder-delete-btn:hover {
     background: #7f1d1d;
     color: #fca5a5;
+}
+
+.dark-mode .reminder-edit-btn {
+    color: #60a5fa;
+}
+
+.dark-mode .reminder-edit-btn:hover {
+    background: #1e3a8a;
+    color: #93c5fd;
+}
+
+.dark-mode .reminder-modal-footer {
+    border-top-color: #374151;
+}
+
+.dark-mode .reminder-modal-edit-btn {
+    background: #3b82f6;
+}
+
+.dark-mode .reminder-modal-edit-btn:hover {
+    background: #2563eb;
 }
 
 /* Dark Mode - Add Button */

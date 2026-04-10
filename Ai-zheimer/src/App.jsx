@@ -1,9 +1,9 @@
 import { useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
-import Login from './pages/Login'
-import Dashboard from './pages/Dashboard'
-import Settings from './pages/Settings'
-import AddReminder from './pages/AddReminder'
+import Login from './Pages/Login'
+import Dashboard from './Pages/Dashboard'
+import Settings from './Pages/Settings'
+import AddReminder from './Pages/AddReminder'
 import { storageKeys, storage } from './utils/storage'
 
 function ProtectedRoute({ children }) {
@@ -53,6 +53,14 @@ function App() {
         />
         <Route 
           path="/add-reminder" 
+          element={
+            <ProtectedRoute>
+              <AddReminder />
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/edit-reminder/:id" 
           element={
             <ProtectedRoute>
               <AddReminder />

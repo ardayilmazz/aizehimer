@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
-import Header from '../components/Layout/Header'
-import Footer from '../components/Layout/Footer'
+import Header from '../Components/Layout/Header'
+import Footer from '../Components/Layout/Footer'
 import { storageKeys, storage } from '../utils/storage'
 
 function Settings() {

@@ -1,30 +1,38 @@
 import { useState } from 'react'
 
-function ChatInput({ onSend, disabled = false }) {
+function ChatInput({ onSend, chatDisabled = false, loading = false }) {
   const [message, setMessage] = useState('')
+  const inputLocked = chatDisabled || loading
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    if (disabled || !message.trim()) return
-    onSend(message)
+    if (inputLocked || !message.trim()) return
+    onSend?.(message)
     setMessage('')
   }
+
+  const placeholder = chatDisabled
+    ? 'AI asistanı şu an kullanılamıyor.'
+    : 'Mesajınızı yazın...'
+
+  const buttonLabel = loading ? 'Bekleyin…' : chatDisabled ? 'Devre dışı' : 'Gönder'
 
   return (
     <div className="chat-input-section">
       <div className="chat-input-wrapper">
-        <input 
-          type="text" 
+        <input
+          type="text"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && handleSubmit(e)}
-          placeholder="Mesajınızı yazın..." 
+          placeholder={placeholder}
           className="chat-input"
-          disabled={disabled}
-          aria-busy={disabled}
+          disabled={inputLocked}
+          readOnly={chatDisabled}
+          aria-busy={loading}
         />
-        <button type="button" onClick={handleSubmit} className="send-button" disabled={disabled}>
-          {disabled ? 'Bekleyin…' : 'Gönder'}
+        <button type="button" onClick={handleSubmit} className="send-button" disabled={inputLocked}>
+          {buttonLabel}
         </button>
       </div>
     </div>

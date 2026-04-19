@@ -4,19 +4,30 @@ import { geminiSystemInstruction } from '../config/geminiPersona.js'
 /**
  * v1 API gövdesinde systemInstruction alanı yok → 400 "Unknown name systemInstruction".
  * Sistem talimatı için v1beta kullanılmalı (@google/generative-ai ile uyumlu).
+ *
+ * Not: @google/generative-ai içinde GenerativeModel, model adında "/" yoksa zaten
+ * "models/<ad>" yapar; .env'de "models/gemini-…" yazmak ile "gemini-…" yazmak aynı URL'yi üretir.
+ * 404 alıyorsanız sebep eksik "models/" değil, hesapta o modelin olmamasıdır.
  */
 const DEFAULT_API_VERSION = 'v1beta'
 
+/** @param {string} id */
+function normalizeGeminiModelId(id) {
+  return String(id || '')
+    .trim()
+    .replace(/^models\//i, '')
+}
+
 /**
- * Gemini 2.0 Flash — @see https://ai.google.dev/gemini-api/docs/models
- * Kısa ad 404 verirse sürümlü yedek denenir.
+ * Varsayılan: Gemini 2.0 Flash — kısa ad 404 verirse sürümlü yedek denenir.
+ * @see https://ai.google.dev/gemini-api/docs/models
  */
 const DEFAULT_MODEL = 'gemini-2.0-flash'
 
 const FLASH_20_FALLBACKS = ['gemini-2.0-flash', 'gemini-2.0-flash-001']
 
 function getModelCandidates(explicitFromEnv) {
-  const m = explicitFromEnv?.trim() || DEFAULT_MODEL
+  const m = normalizeGeminiModelId(explicitFromEnv || DEFAULT_MODEL) || DEFAULT_MODEL
   if (m === 'gemini-2.0-flash') {
     return [...FLASH_20_FALLBACKS]
   }
@@ -86,7 +97,7 @@ export function mapGeminiError(err) {
     lower.includes('not found') ||
     lower.includes('is not found for api version')
   ) {
-    return 'Model bulunamadı (404). .env içinde VITE_GEMINI_MODEL=gemini-2.0-flash veya AI Studio’daki tam model adını kullanın. VITE_GEMINI_API_VERSION=v1beta kalsın. Sunucuyu yeniden başlatın.'
+    return 'Model bulunamadı (404). VITE_GEMINI_MODEL=gemini-2.0-flash kullanın (kod -001 yedeği dener). VITE_GEMINI_API_VERSION=v1beta kalsın. Sunucuyu yeniden başlatın.'
   }
 
   if (
@@ -129,14 +140,24 @@ export function mapGeminiError(err) {
     lower.includes('too many requests')
   ) {
     let msg =
-      'Kota veya hız limiti (429): Bu bir internet kopması değildir. Ücretsiz katman günlük/dakikalık istek veya token sınırı dolmuş olabilir. Bir süre (ör. bir dakika veya ertesi gün) bekleyin; Google AI Studio veya Cloud Console’dan Usage / Billing kontrol edin; gerekirse faturalandırmayı açın veya başka bir proje anahtarı deneyin.'
+      'Kota veya hız limiti (429): Bu bir internet kopması değildir. Google AI Studio veya Cloud Console’dan Usage / Billing kontrol edin.'
+
     if (
+      lower.includes('free_tier') &&
+      (lower.includes('limit: 0') || lower.includes('limit is 0'))
+    ) {
+      msg =
+        'Google isteğinizi hâlâ "ücretsiz katman" (free tier) kotasına yazıyor ve bu kotada limit 0 görünüyor — yani ücretli kullanım henüz bu API anahtarına yansımamış. AI Studio → projeniz → Gemini faturalandırma / ön ödeme kredisi (Buy credits) ile bakiyeyi doğrulayın; Cloud’a yaptığınız ödeme ile Gemini prepay aynı cüzdan olmayabilir. Sorun sürerse Google destek.'
+    } else if (
       lower.includes('free_tier') ||
       lower.includes('billing') ||
       lower.includes('plan')
     ) {
       msg +=
-        ' Konsolda "free tier" veya "billing" geçiyorsa limit tamamen ücretsiz kotayla ilgilidir.'
+        ' Konsolda "free_tier" geçiyorsa kota ücretsiz katmanla ilişkilidir; faturalı kullanım için AI Studio’daki Gemini ön ödeme bakiyesini kontrol edin.'
+    } else {
+      msg +=
+        ' Ücretsiz katman günlük/dakikalık sınırı dolmuş olabilir; bir süre bekleyin veya faturalandırmayı / başka proje anahtarını deneyin.'
     }
     if (detail && detail.length < 220) {
       msg += ` Ayrıntı: ${detail}`

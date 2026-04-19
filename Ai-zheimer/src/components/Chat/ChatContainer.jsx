@@ -1,45 +1,18 @@
 import { useState } from 'react'
 import ChatMessage from './ChatMessage'
 import ChatInput from './ChatInput'
-import { useGemini } from '../../hooks/useGemini'
+
+const AI_CHAT_DISABLED_MESSAGE =
+  'AI sistemi devre dışı. yakında aktif edilecek. manuel olarak işlemlerinizi gerçekleştirebilirsiniz. Sağlıklı günler dileriz.'
 
 function ChatContainer() {
-  const [messages, setMessages] = useState([
+  const [messages] = useState([
     {
       id: 1,
       type: 'ai',
-      text: 'Merhaba! Ben AI-Zheimer asistanınızım. Size nasıl yardımcı olabilirim? İlaçlarınızı, hatırlatmalarınızı ve notlarınızı ekleyebilirsiniz.'
+      text: AI_CHAT_DISABLED_MESSAGE
     }
   ])
-
-  const { loading, error, clearError, sendChatMessage } = useGemini()
-
-  const handleSendMessage = async (text) => {
-    if (!text.trim() || loading) return
-
-    clearError()
-
-    const userMessage = {
-      id: Date.now(),
-      type: 'user',
-      text: text.trim()
-    }
-
-    const nextMessages = [...messages, userMessage]
-    setMessages(nextMessages)
-
-    try {
-      const replyText = await sendChatMessage(nextMessages)
-      const aiMessage = {
-        id: Date.now() + 1,
-        type: 'ai',
-        text: replyText
-      }
-      setMessages((prev) => [...prev, aiMessage])
-    } catch {
-      /* useGemini zaten Türkçe hata metnini error state'e yazar */
-    }
-  }
 
   return (
     <div className="chat-section">
@@ -52,25 +25,13 @@ function ChatContainer() {
         </h2>
       </div>
 
-      {error && (
-        <div className="chat-inline-error" role="alert">
-          {error}
-        </div>
-      )}
-
       <div className="chat-container">
         {messages.map((message) => (
           <ChatMessage key={message.id} message={message} />
         ))}
-        {loading && (
-          <ChatMessage
-            key="typing-indicator"
-            message={{ type: 'ai', text: '', isTyping: true }}
-          />
-        )}
       </div>
 
-      <ChatInput onSend={handleSendMessage} disabled={loading} />
+      <ChatInput chatDisabled />
     </div>
   )
 }

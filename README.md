@@ -17,6 +17,8 @@ AI-Zheimer, yapay zeka destekli bir hatırlatıcı ve asistan web uygulamasıdı
 - 📝 Not alma
 - 💾 Local Storage ile veri saklama
 
+**Not — AI sohbet:** AI chat kısmı tamamen çalışacak şekilde hazırlandı fakat üyelik ödemesi yapılmadığı için kullanılamıyor.
+
 ## Kurulum
 1. Projeyi klonlayın veya indirin
 2. `index.html` dosyasını bir web tarayıcısında açın
@@ -24,10 +26,10 @@ AI-Zheimer, yapay zeka destekli bir hatırlatıcı ve asistan web uygulamasıdı
 
 ## Geliştirme Aşamaları
 - [x] HTML/CSS tasarım
-- [ ] JavaScript entegrasyonu
-- [ ] Local Storage yönetimi
-- [ ] React JS geçişi
-- [ ] Google Gemini API entegrasyonu
+- [x] JavaScript entegrasyonu
+- [x] Local Storage yönetimi
+- [x] React JS geçişi
+- [x] Google Gemini API entegrasyonu
 
 ## Lisans
 Staj projesi - Ticari amaçlı değildir.
